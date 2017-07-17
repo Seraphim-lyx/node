@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+	<script language='javascript' src='/javascripts/jquery-1.7.2.min.js'></script>
+    <script language='javascript' src='/javascripts/angular.js'></script>
+    <script language='javascript' src='/javascripts/crypto/rsa.js'></script>
+    <script language="javascript" src="../javascripts/crypto/jsbn.js"></script>
+	<script language="javascript" src="../javascripts/crypto/prng4.js"></script>
+	<script language="javascript" src="../javascripts/crypto/rng.js"></script>
+    <script>
+     	var json = '<%- JSON.stringify(json) %>';
+    	json = JSON.parse(json);
+    	var app = angular.module('myApp', []);
+		app.controller('myCtrl', function($scope, $http) {
+			
+				$scope.myWelcome=json
+			// $scope.sayHello = function(){
+  	// 			$http.post("/users/find",{test1:'test1111',test2:'test2222'}).then(function(response) {
+  					
+   //    			$scope.myWelcome = response.data;
+      	
+ 		// 	});
+  	// 	};		
+  				$scope.formData={};
+  				$scope.onsubmit=function(){
+  					var cipher = new RSAKey();
+					cipher.setPublic(json.modulus,json.exponent);
+					$scope.formData.password=cipher.encrypt($scope.pass);
+  					$http({
+  						method:'POST',
+  						url:'decrypt/',
+  						data:$.param($scope.formData),
+  						headers : { 'Content-Type': 'application/x-www-form-urlencoded' },
+  					})
+  					.then(function(data){
+  						// alert(data.data);
+  						console.log(data);
+  					},function(err){
+  						console.log(err);
+  					})
+  					// formData.password=$scope.password;
+  					
+  					// alert($scope.formData.password)
+  				}
+
+
+});
+    </script>
+</head>
+<body>
+<div ng-app='myApp' ng-controller='myCtrl'>
+<p>{{myWelcome}}</p>
+<form action="" method="post">
+<input type="text" ng-model='formData.name'></br>
+<input type="password" ng-model='pass'>
+<br />
+<input type="button" ng-click='onsubmit()' value="submit" />
+</form>
+</div>
+</body>
+</html>
