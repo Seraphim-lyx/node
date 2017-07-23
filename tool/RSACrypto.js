@@ -2,6 +2,17 @@ var fs = require('fs');
 var ursa = require('ursa');
 var encoding = require('encoding');
 var _instance = null;
+//Euler'so totient function
+
+/**
+ * let key length=bytes
+ * φ(n) = φ(p*q) = (p-1)*(q-1) //random prime number p,q, modulus n = p*q
+ * random exponent e // 1< e < φ(n)
+ * ed ≡ 1 (mod φ(n))
+ * public key(n,e) private key(d,e)
+ * encryption m^e ≡ c (mod n) // m = messeage c = variant
+ * decryption c^d ≡ m (mod n)
+ */
 function RSACrypto(){
 	var self;
 	

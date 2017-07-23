@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
-  secret: 'recommand 128 bytes random string', // 建议使用 128 个字符的随机字符串
+  secret: 'recommand 128 bytes random string', // 128 bytes string is recommended
   resave: true, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
   cookie: { maxAge: 60 * 1000 }

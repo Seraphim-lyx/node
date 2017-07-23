@@ -37,6 +37,20 @@ router.get('/find',function(req,res,next){
 		
 	
 })
+router.post('/find2',function(req,res,next){
+	console.log(req.body.test1);
+	userDao.findAllUser()
+		.then(function(result){
+			// res.json(result);
+			var json={
+			title:'title',
+			result:result,
+			}
+			res.send(json)
+		});
+		
+	
+})
 router.get('/test',function(req,res,next){
 	console.log('t1');
 	next();
@@ -65,22 +79,22 @@ router.get('/delete',function(req,res,next){
 		})
 })
 router.get('/encrypt',function(req,res,next){
-	var modulusBit=1024;
-	var rsacrypto=new RSACrypto().getInstance();
+	var modulusBit = 1024;
+	var rsacrypto = new RSACrypto().getInstance();
 	rsacrypto.generateKey();
 	var modulus = rsacrypto.getPublicModulus();
 	var exponent = rsacrypto.getPublicExponent();
-	req.session.privateKey=rsacrypto.getPrivateKey();
-	var json={modulus:modulus,exponent:exponent};
+	req.session.privateKey = rsacrypto.getPrivateKey();
+	var json = {modulus:modulus,exponent:exponent};
 	res.render('encrypt.html',{json:json});
 })
 
 router.post('/decrypt',function(req,res,next){
 	// var padding = ursa.RSA_PKCS1_PADDING;
 
-	var privateKey=req.session.privateKey;
-	var rsa=new RSACrypto().getInstance();
-	var r=rsa.decrypt(req.body.password,privateKey);
+	var privateKey = req.session.privateKey;
+	var rsa = new RSACrypto().getInstance();
+	var r = rsa.decrypt(req.body.password,privateKey);
 	console.log(r.toString());
 	res.send(r);
 })

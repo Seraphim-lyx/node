@@ -8,16 +8,16 @@
      	var json = '<%- JSON.stringify(json) %>';
     	json = JSON.parse(json);
     	var app = angular.module('myApp', []);
-		app.controller('myCtrl', function($scope, $http) {
+		  app.controller('myCtrl', function($scope, $http) {
 			
-				$scope.myWelcome=json
-			// $scope.sayHello = function(){
-  	// 			$http.post("/users/find",{test1:'test1111',test2:'test2222'}).then(function(response) {
+				// $scope.myWelcome=json
+			$scope.sayHello = function(){
+  				$http.post("/users/find2",{test1:'test1111',test2:'test2222'}).then(function(response) {
   					
-   //    			$scope.myWelcome = response.data;
+      			$scope.myWelcome = response.data.result;
       	
- 		// 	});
-  	// 	};
+ 			});
+  		};
 });
     </script>
   </head>
@@ -31,10 +31,10 @@
 
 <p>欢迎信息:</p>
 
-<!-- <h1 ng-repeat='x in myWelcome track by $index'>{{x.id}}<br/></h1> -->
+<!-- <h1 ng-repeat='x in myWelcome.result track by $index'>{{x.id}}<br/></h1> -->
 <h1>{{myWelcome}}</h1>
 
-<!-- <button ng-click="sayHello()">try</button> -->
+<button ng-click="sayHello()">try</button>
 
 
 </div>
