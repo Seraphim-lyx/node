@@ -13,9 +13,10 @@ var RSACrypto = require('../tool/RSACrypto.js');
 // var test=require('../model/test.js');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+
+// router.get('/', function(req, res, next) {
+//   res.send('respond with a resource');
+// });
 
 router.get('/add',function(req,res,next){
    
@@ -23,8 +24,7 @@ router.get('/add',function(req,res,next){
     res.send('s');
 });
 
-router.get('/find',function(req,res,next){
-	console.log(req.body.test1);
+router.get('/',function(req,res,next){
 	userDao.findAllUser()
 		.then(function(result){
 			// res.json(result);
@@ -37,8 +37,19 @@ router.get('/find',function(req,res,next){
 		
 	
 })
+
+router.get('/try',function(req, res, next){
+  console.log(req.query.a);
+  res.render("try.html");
+});
+
+router.get('/form',function(req,res,next){
+	console.log('formPage');
+	res.render('form1.html');
+});
+
 router.post('/find2',function(req,res,next){
-	console.log(req.body.test1);
+	console.log(req.body.test3);
 	userDao.findAllUser()
 		.then(function(result){
 			// res.json(result);

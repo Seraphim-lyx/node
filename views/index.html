@@ -3,20 +3,74 @@
   <head>
  
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src='/javascripts/angular.js'></script>
+    <script src='/javascripts/angular.min.js'></script>
+    <script src="/javascripts/angular-ui-router.js"></script>
     <script>
      	var json = '<%- JSON.stringify(json) %>';
     	json = JSON.parse(json);
-    	var app = angular.module('myApp', []);
-		  app.controller('myCtrl', function($scope, $http) {
-			
-				// $scope.myWelcome=json
+    	var app = angular.module('myApp', ['ui.router']);
+      app.config(function($stateProvider, $urlRouterProvider){
+          $urlRouterProvider.when("", "/users");
+          $stateProvider
+            
+            .state('find',{
+              url: '/users',
+              templateUrl: '/users',
+              controller: 'myCtrl',
+                // views:{
+                //   'a':{
+                //     url:'/users',
+                //     templateUrl:'/users',
+                    
+
+                //   },
+                //   'b':{
+                //     url:'/users/form',
+                //     templateUrl:'/users/form',
+                    
+                //   },
+                //   'c':{
+                //     url:'/users/try',
+                //     templateUrl:'/users/try',
+
+                //   }
+                // },
+
+            })
+             .state('form', {
+              url:'/users/form',
+              templateUrl: '/users/form',
+              controller: 'myCtrl',
+
+            })
+            .state('try',{
+              url: '/users/try?a',
+              templateUrl: function($stateParams){
+                return '/users/try?a='+$stateParams.a;
+              },
+              controller: function($stateParams){
+                   console.log($stateParams.a)
+              }
+            })
+
+           
+        })
+
+      
+		  app.controller('myCtrl',function($scope, $location, $http, $state, $stateParams, $injector) {
+			$scope.formData={}
+      $injector.get('$templateCache').removeAll();//remove cache and reload page
 			$scope.sayHello = function(){
-  				$http.post("/users/find2",{test1:'test1111',test2:'test2222'}).then(function(response) {
+         $state.go('try',{a:'fuck'}); 
+
+       
+  		// 		$http.post("/users/find2",$scope.formData).then(function(response) {
   					
-      			$scope.myWelcome = response.data.result;
-      	
- 			});
+    //   			// $scope.myWelcome = response.data.result;
+    //         // 
+           
+      	   
+ 			// });
   		};
 });
     </script>
@@ -29,16 +83,26 @@
 </div> -->
 <div ng-app="myApp" ng-controller="myCtrl"> 
 
-<p>欢迎信息:</p>
+<!-- <p>欢迎信息:</p> -->
 
 <!-- <h1 ng-repeat='x in myWelcome.result track by $index'>{{x.id}}<br/></h1> -->
-<h1>{{myWelcome}}</h1>
+<!-- <h1>{{myWelcome}}</h1> -->
 
 <button ng-click="sayHello()">try</button>
-
-
+<!-- <form ng-submit="sayHello()">
+    <input type="text" ng-model="formData.test3"/>
+    <button type="submit" value="submit"/>
+</form> -->
+<!-- <a ng-href="/try">link</a> -->
+    <span style="width:100px" ui-sref-active="active" ui-sref="form"><a href="">Page-1</a></span>
+    <!-- <span style="width:100px" ui-sref-active="active" ui-sref="find"><a href="">Page-2</a></span> -->
+    <span style="width:100px" ui-sref-active="active" ui-sref="try({a:fuck})"><a href="">Page-3</a></span>
+  <div data-ui-view=""></div>
+<!--   <div ui-view="a"></div>
+  <div ui-view="b"></div>
+  <div ui-view="c"></div> -->
+  <!-- <a ui-sref="demo" ui-sref-opts="{reload:true}">跳转</a>   --> 
 </div>
-
 
   </body>
 </html>

@@ -28,13 +28,8 @@ router.post('/upload', function(req,res,next){
       res.send("a");
 });
 
-router.get('/form',function(req,res,next){
-	res.render('form1.html');
-});
-router.post('/try',function(req, res, next){
-  
-  res.send(req.body.title);
-});
+
+
 
 router.get('/test',function(req,res,next){
     res.send(Date.today());
